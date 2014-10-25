@@ -8,7 +8,6 @@
 public/assets
 public/ckeditor_assets
 public/system/*
-public/images/*
 config/database.yml
 # Ignore bundler config.
 /.bundle
