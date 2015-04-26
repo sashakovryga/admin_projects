@@ -1,0 +1,63 @@
+ru:
+  attributes:
+    _destroy: Удалить запись?
+    created_at: Создана
+    updated_at: Обновлена
+    description: Краткое описание
+    body: Полное описание
+    title: Название
+    slug: Дружественный Id
+    photo: Фото
+    image_name: Название фото
+    image_uid: Адрес фото
+    priority: Приоритет
+    available: Доступно
+    sign_in_count: Количество посещений
+    current_sign_in_at: Регистрация
+    updated_at: Обновление
+    last_sign_in_ip: Последнее посещение по адресу
+    encrypted_password: Ключ
+    current_sign_in_ip: Используемый адрес
+    last_sign_in_at: Последнее посещение
+    reset_password_token: Восстановленный пароль
+    reset_password_sent_at: Сброс пароля на
+    remember_created_at: ???
+    password: Пароль
+    password_confirmation: Повторите пароль
+  date:
+    formats:
+      default: "%Y/%m/%d"
+      short: "%b %d"
+      long: '%d.%m.%Y %H:%M'
+      month: "%B"
+      short: "%d %B"
+      learn: "%d %B %H:%M"
+  time:
+    formats:
+      default: "%Y/%m/%d"
+      short: "%b %d"
+      long: '%d.%m.%Y %H:%M'
+      month: "%B"
+      short: "%d %B"
+
+  buttons:
+    add: Добавить
+    update: Обновить
+  sign_in: Войти
+
+  formtastic:
+    yes: 'Да'
+    no: 'Нет'
+    create: 'Создать %{model}'
+    update: 'Обновить %{model}'
+    submit: 'Сохранить %{model}'
+
+  simple_captcha:
+    label: "Введите код с картинки"
+    placeholder: "Введите код с картинки"
+
+  errors:
+    messages:
+      blank: "Пожалуйста, укажите ваш %{attribute}"
+      invalid: Неверное значение
+      not_a_number: Введите число
