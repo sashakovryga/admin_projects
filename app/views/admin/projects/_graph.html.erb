@@ -1,0 +1,25 @@
+<div class="panel calendar-panel collapse in" id="info">
+  <div class="ro1w">
+    <div class="span4"><span class="label"><%= Russian::l minimum, format: :short %></span></div>
+    <div class="span5 text-right"><span class="label"><%= Russian::l maximum, format: :short %></span></div>
+  </div>
+  <% info = months_split(minimum, maximum) %>
+  <div class="progress progress-info">
+    <% info[:intervals].each_with_index do |i, index| %>
+      <div class="bar bar-warning" style="width: <%= i %>%;"><%= Russian::l((minimum + index.months), format: :only_month) %></div>
+    <% end %>
+  </div>
+  <div class="progress progress-info">
+    <% tasks.each do |task| %>
+      <% info = task.time_percent(minimum,maximum) %>
+      <span><%= "#{task.kind} #{[task.from, task.to].reject{|d| d.nil?}.map{|d| Russian::l(d, format: :short)}.join(' &mdash; ')}".html_safe %></span>
+      <% if task.empty_dates? %>
+        <div class="bar bar-warning" style="width:100%;"></div>
+      <% else %>
+        <div class="bar bar-none" style="width: <%= info[:befores] %>%;"></div>
+        <div class="bar bar-success" style="width: <%= info[:length] %>%;"></div>
+      <% end %>
+    <% end %>
+  </div>
+</div>
+<div class="clearfix"></div>

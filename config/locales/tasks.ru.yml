@@ -1,0 +1,29 @@
+ru:
+  activerecord:
+    models:
+      task:
+        one: Задача
+        few: Задачи
+        many: Задач
+        other: Задачи
+
+    attributes:
+      task:
+        correct: Правильный ответ
+        prompts: Подсказки
+        popup: Текст попапа обычного вопроса
+        copyright: Текст попапа вопроса-настроения
+        content: Элемент на сайте игры
+        image: Изображение
+        title_popup: Заголовок попапа обычного вопроса
+
+  enumerize:
+    task:
+      kind:
+        programming: Программирование
+        content: Наполнение контентом
+        test: Тестирование
+        tz: ТЗ
+        production: Заливка
+        design: Дизайн
+
