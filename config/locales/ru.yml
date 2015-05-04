@@ -24,21 +24,6 @@ ru:
     remember_created_at: ???
     password: Пароль
     password_confirmation: Повторите пароль
-  date:
-    formats:
-      default: "%Y/%m/%d"
-      short: "%b %d"
-      long: '%d.%m.%Y %H:%M'
-      month: "%B"
-      short: "%d %B"
-      learn: "%d %B %H:%M"
-  time:
-    formats:
-      default: "%Y/%m/%d"
-      short: "%b %d"
-      long: '%d.%m.%Y %H:%M'
-      month: "%B"
-      short: "%d %B"
 
   buttons:
     add: Добавить
@@ -61,3 +46,28 @@ ru:
       blank: "Пожалуйста, укажите ваш %{attribute}"
       invalid: Неверное значение
       not_a_number: Введите число
+
+  date:
+    formats:
+      small: "%d.%m"
+      default: "%d %B %Y"
+      short: "%d %b"
+      month: "%d %B"
+      shortest: "%d.%m"
+      long: "%d %B %Y"
+      full: "%d.%m.%Y"
+      report: "%d.%m.%Y"
+
+  time:
+    # Форматы времени
+    formats:
+      small: "%d %B"
+      default: "%d %B %Y"
+      short: "%d %B %Y"
+      month: "%d %B"
+      only_month: "%b`%y"
+      shortest: "%d.%m"
+      long: "%d %B %Y %H:%M:%S"
+      full: "%d.%m.%Y, %H:%M"
+      fullbr: "%d.%m.%Y,<br/> %H:%M"
+      report: "%d.%m.%Y %H:%M:%S"

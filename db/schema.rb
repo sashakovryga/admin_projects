@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150426183706) do
+ActiveRecord::Schema.define(version: 20150504201859) do
 
   create_table "active_admin_comments", force: true do |t|
     t.string   "namespace"
@@ -87,11 +87,13 @@ ActiveRecord::Schema.define(version: 20150426183706) do
     t.integer  "project_id"
     t.string   "title"
     t.text     "description"
-    t.string   "time"
+    t.float    "time",        limit: 24
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "kind"
     t.string   "status"
+    t.datetime "to"
+    t.datetime "from"
   end
 
   add_index "tasks", ["project_id"], name: "index_tasks_on_project_id", using: :btree

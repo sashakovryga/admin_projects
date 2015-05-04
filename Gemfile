@@ -16,10 +16,15 @@ gem "just-datetime-picker"
 gem 'ckeditor'
 gem 'dragonfly', '~> 1.0.7'
 gem 'enumerize'
+gem 'russian', '~> 0.6.0'
 
 gem 'devise'
 gem 'activeadmin', github: 'activeadmin'
 
+gem "therubyracer"
+gem "less-rails" #Sprockets (what Rails 3.1 uses for its asset pipeline) supports LESS
+gem "twitter-bootstrap-rails"
+gem 'bootstrap-sass', '~> 3.0.3.0'
 group :development do
   gem 'pry'
 end

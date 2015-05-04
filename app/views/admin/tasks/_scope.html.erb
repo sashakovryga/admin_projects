@@ -1,29 +1,10 @@
 <ul class='scopes table_tools_segmented_control'>
-  <li class="scope">
-    <a href="<%= admin_project_path(project) scope: :all %>" class="table_tools_button">
-      Все
-      <span class="count"><%= project.tasks.count %></span>
-    </a>
-  </li>
-  <li class="scope">
-    <a href="" class="table_tools_button">
-      Программирование
-      <span class="count"><%= project.tasks.count %></span>
-    </a>
-  </li>
-  <li class="scope">
-    <a href="" class="table_tools_button">
-      <span class="count"></span>
-    </a>
-  </li>
-  <li class="scope">
-    <a href="" class="table_tools_button">
-      <span class="count"></span>
-    </a>
-  </li>
-  <li class="scope">
-    <a href="" class="table_tools_button">
-      <span class="count"></span>
-    </a>
-  </li>
+  <% @task_scope.each do |t| %>
+    <li class="scope">
+      <a href="<%= admin_project_path project, scope: t.first %>" class="table_tools_button">
+        <%= t.last %>
+        <span class="count"><%= t.second %></span>
+      </a>
+    </li>
+  <% end %>
 </ul>

@@ -71,13 +71,33 @@ ActiveAdmin.register Project do
   show :title => :title do |project|
     panel "Задачи" do
       render('/admin/tasks/scope', :project => project )
-      table_for(project.tasks) do
-        # column("Задача", :sortable => :id) {|task| link_to "#{task.title}", admin_tasks_path(tasks) }
+      table_for(tasks) do
+        column("Задача", :sortable => :id) {|task| link_to "#{task.title}", admin_task_path(task) }
         column("Тип") {|task| "#{task.kind}" }
         column("Время") {|task| "#{task.time}"}
+        column("События") {|task| render('/admin/tasks/actions', :task => task)}
       end
+      render('/admin/projects/graph', minimum: project.from, maximum: project.to, tasks: project.tasks)
+    end
+  end
+
+  sidebar "Общая информация", :only => :show do
+    attributes_table_for project do
+      row("Общее время") { project.to }
+    end
+  end
+
+  controller do
+    def show
+      @task_scope = [[:all, Task.all.count, "Все"]]
+      Task.kind.values.each { |o|
+        @task_scope.push([o, Task.where(kind: o).count, o.text])
+      }
+      @tasks = params[:scope].nil? || params[:scope].to_sym == :all ? Task.all : Task.where(kind: params[:scope])
+      super
     end
   end
 
 end
+
 

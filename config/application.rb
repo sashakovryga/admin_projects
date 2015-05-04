@@ -23,7 +23,7 @@ module Nestle
     config.assets.precompile += %w(home.css home.js)
     config.assets.precompile += ['ckeditor/*.js', 'ckeditor/*.css', 'ckeditor/*', '*.eot', '*.otf', '*.woff', '*.ttf', '*.svg', '*.png', '*.jpg', '*.html']
 
-    config.assets.precompile += ['livequery.js']
+    config.assets.precompile += ['livequery.js', 'active_admin.css']
 
     config.assets.paths << "#{Rails.root}/app/assets/fonts"
   end
