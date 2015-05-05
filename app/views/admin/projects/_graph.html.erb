@@ -6,20 +6,26 @@
   <% info = months_split(minimum, maximum) %>
   <div class="progress progress-info">
     <% info[:intervals].each_with_index do |i, index| %>
-      <div class="bar bar-warning" style="width: <%= i %>%;"><%= Russian::l((minimum + index.months), format: :only_month) %></div>
-    <% end %>
-  </div>
-  <div class="progress progress-info">
-    <% tasks.each do |task| %>
-      <% info = task.time_percent(minimum,maximum) %>
-      <span><%= "#{task.kind} #{[task.from, task.to].reject{|d| d.nil?}.map{|d| Russian::l(d, format: :short)}.join(' &mdash; ')}".html_safe %></span>
-      <% if task.empty_dates? %>
-        <div class="bar bar-warning" style="width:100%;"></div>
-      <% else %>
-        <div class="bar bar-none" style="width: <%= info[:befores] %>%;"></div>
-        <div class="bar bar-success" style="width: <%= info[:length] %>%;"></div>
+      <% i.to_i.times do |index| %>
+        <div class="bar bar-warning" style="width: <%= 100.0/info[:days] %>%;"><%= Russian::l((minimum + index.days), format: :small) %></div>
       <% end %>
     <% end %>
   </div>
+  <% kind.each do |k| %>
+    <div class="progress progress-info">
+      <span><%= k %></span>
+      <% @tasks_status.where(kind: k).ordered.each do |task| %>
+        <% info = task.time_percent(minimum, maximum, k) %>
+        <% if task.empty_dates? %>
+          <div class="bar bar-warning" style="width:100%;"></div>
+        <% else %>
+          <div class="bar bar-none" style="width: <%= info[:befores] %>%;"></div>
+          <div class="bar bar-success" style="width: <%= info[:length] %>%;">
+            <span><%= task.title %></span>
+          </div>
+        <% end %>
+      <% end %>
+    </div>
+  <% end %>
 </div>
 <div class="clearfix"></div>

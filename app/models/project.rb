@@ -1,6 +1,9 @@
 class Project < ActiveRecord::Base
+  belongs_to :client
   has_many :tasks, dependent: :destroy
   accepts_nested_attributes_for :tasks
+  has_many :payments, dependent: :destroy
+  accepts_nested_attributes_for :payments
   just_define_datetime_picker :to
   just_define_datetime_picker :from
   validates :title, :from, :to, presence: true

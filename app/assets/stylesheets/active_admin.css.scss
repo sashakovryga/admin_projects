@@ -932,3 +932,43 @@ span.points, span.sms{
 .panel div {
   padding: 0;
 }
+
+.breadcrumb {
+  padding: 0;
+  margin: 10px 0;
+  background-color: transparent;
+}
+
+.label {
+  color: #5e6469;
+  background-color: transparent;
+}
+
+form {
+  input[type=text], input[type=number] {
+    width: 40%;
+    height: 13px;
+  }
+}
+
+.progress-info .bar, .progress .bar-info {
+  span a {
+    color: white;
+  }
+}
+
+#sidebar {
+  .btn {
+    color: white;
+  }
+}
+
+.calendar-panel {
+  clear: both;
+}
+
+.sidebar {
+  span a{
+    font-size: 13px;
+  }
+}

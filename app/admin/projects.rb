@@ -1,9 +1,10 @@
 # encoding:utf-8
 ActiveAdmin.register Project do
-  menu :parent => 'Проект'
+  # menu :parent => 'Проект'
 
-  permit_params :title, :description, :from, :to, :created_at, :from_date, :from_time_hour, :from_time_minute, :to_date, :to_time_hour, :to_time_minute, :step,
-                tasks_attributes: [:id, :_destroy, :title, :description, :time, :kind, :status, images_attributes: [:id, :image, :_destroy]]
+  permit_params :title, :description, :from, :to, :created_at, :from_date, :from_time_hour, :from_time_minute, :to_date, :to_time_hour, :client_id, :to_time_minute, :step,
+                tasks_attributes: [:id, :_destroy, :title, :description, :time, :kind, :status, images_attributes: [:id, :image, :_destroy]],
+                payments_attributes: [:id, :_destroy, :comment, :price]
 
   filter :description
   filter :from
@@ -16,6 +17,7 @@ ActiveAdmin.register Project do
       f.input :description, as: :ckeditor
       f.input :from, as: :just_datetime_picker
       f.input :to, as: :just_datetime_picker
+      f.input :client, as: :select, collection: Client.all.map{|c| [c.title, c.id]}
       f.inputs 'Задачи' do
         f.has_many :tasks do |a|
           a.input :_destroy, as: :boolean
@@ -44,56 +46,59 @@ ActiveAdmin.register Project do
     actions
   end
 
-  # show do |project|
-  #   attributes_table do
-  #     row :title
-  #     row :description do |project|
-  #       raw project.description.html_safe
-  #     end
-  #     row :from
-  #     row :to
-  #     row :tasks do
-  #       ul do
-  #         project.tasks.each do |task|
-  #           li do
-  #             div do
-  #               # task.description.html_safe
-  #               task.kind
-  #             end
-  #           end
-  #         end
-  #       end
-  #     end
-  #     row :created_at
-  #   end
-  # end
-
   show :title => :title do |project|
     panel "Задачи" do
       render('/admin/tasks/scope', :project => project )
+      render('/admin/tasks/status', :project => project )
       table_for(tasks) do
         column("Задача", :sortable => :id) {|task| link_to "#{task.title}", admin_task_path(task) }
         column("Тип") {|task| "#{task.kind}" }
         column("Время") {|task| "#{task.time}"}
+        column("Начало работ") {|task| Russian::l task.from, format: :short }
+        column("Завершение") {|task| Russian::l task.to, format: :short}
         column("События") {|task| render('/admin/tasks/actions', :task => task)}
       end
-      render('/admin/projects/graph', minimum: project.from, maximum: project.to, tasks: project.tasks)
+      render('/admin/projects/graph', minimum: project.from, maximum: project.to, kind: Task.kind.values)
+    end
+    if project.payments.present?
+      panel 'Платежки' do
+        table_for(project.payments) do
+          column("Описание", :sortable => :id) {|payment| link_to "#{payment.comment}.".html_safe, admin_payment_path(payment) }
+          column("Сумма") {|payment| "#{payment.price} $" }
+          column("События") {|payment| render('/admin/payments/actions', :payment => payment)}
+        end
+      end
     end
   end
 
   sidebar "Общая информация", :only => :show do
     attributes_table_for project do
-      row("Общее время") { project.to }
+      row("Описание") { project.description.html_safe }
+      row("Общее время") { [project.tasks.map(&:time).sum, 'часов'].join(' ') }
+      row("Бюджет") { [project.payments.map(&:price).sum, '$'].join(' ') }
+    end
+    div class: 'sidebar' do
+      span do
+        link_to 'Создать задачу', new_admin_task_path(project: project), class: 'btn btn-primary'
+      end
+      span do
+        link_to 'Добавить платежку', new_admin_payment_path(project: project), class: 'btn btn-primary'
+      end
     end
   end
 
   controller do
     def show
-      @task_scope = [[:all, Task.all.count, "Все"]]
+      @task_scope = [[:all, resource.tasks.count, "Все"]]
       Task.kind.values.each { |o|
-        @task_scope.push([o, Task.where(kind: o).count, o.text])
+        @task_scope.push([o, resource.tasks.where(kind: o).count, o.text])
       }
-      @tasks = params[:scope].nil? || params[:scope].to_sym == :all ? Task.all : Task.where(kind: params[:scope])
+      @tasks = params[:scope].nil? || params[:scope].to_sym == :all ? resource.tasks : resource.tasks.where(kind: params[:scope])
+      @task_status = [[:all, resource.tasks.count, "Все"]]
+      Task.status.values.each { |o|
+        @task_status.push([o, resource.tasks.where(status: o).count, o.text])
+      }
+      @tasks_status = params[:status].nil? || params[:status].to_sym == :all ? resource.tasks : resource.tasks.where(status: params[:status])
       super
     end
   end

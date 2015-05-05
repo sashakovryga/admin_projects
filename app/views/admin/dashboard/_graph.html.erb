@@ -12,12 +12,13 @@
   <% projects.each do |project| %>
     <% info = project.time_percent(minimum,maximum) %>
     <div class="progress progress-info">
-      <span><%= link_to "#{project.title} #{[project.from, project.to].reject{|d| d.nil?}.map{|d| Russian::l(d, format: :short)}.join(' &mdash; ')}".html_safe, admin_project_path(project) %></span>
       <% if project.empty_dates? %>
         <div class="bar bar-warning" style="width:100%;"></div>
       <% else %>
         <div class="bar bar-none" style="width: <%= info[:befores] %>%;"></div>
-        <div class="bar bar-success" style="width: <%= info[:length] %>%;"></div>
+        <div class="bar bar-success" style="width: <%= info[:length] %>%;">
+          <span><%= link_to "#{project.title} #{[project.from, project.to].reject{|d| d.nil?}.map{|d| Russian::l(d, format: :short)}.join(' &mdash; ')}".html_safe, admin_project_path(project) %></span>
+        </div>
       <% end %>
     </div>
   <% end %>

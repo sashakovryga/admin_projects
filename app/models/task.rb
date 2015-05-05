@@ -8,9 +8,10 @@ class Task < ActiveRecord::Base
   just_define_datetime_picker :from
   enumerize :kind, in: [:programming, :content, :test, :tz, :production, :design]
   enumerize :status, in: [:verify, :do, :perfomed]
+  scope :ordered, -> {order('tasks.from ASC')}
 
-  def time_percent(start, stop)
-    prev = Task.where('tasks.from < ?', self.from).last
+  def time_percent(start, stop, kind)
+    prev = Task.where('tasks.from < ? AND kind = ?', self.from, kind).ordered.last
     minus = prev.nil? ? start : prev.to
     days = (60 * 60 * 24)
     total = (stop - start).to_i / days
