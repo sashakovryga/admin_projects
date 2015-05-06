@@ -1,4 +1,5 @@
 class Project < ActiveRecord::Base
+  extend Enumerize
   belongs_to :client
   has_many :tasks, dependent: :destroy
   accepts_nested_attributes_for :tasks
@@ -7,6 +8,7 @@ class Project < ActiveRecord::Base
   just_define_datetime_picker :to
   just_define_datetime_picker :from
   validates :title, :from, :to, presence: true
+  enumerize :status, in: [:archive, :do, :planned]
 
   scope :ordered, -> { order('created_at DESC')}
 

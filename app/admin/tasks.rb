@@ -2,6 +2,13 @@
 ActiveAdmin.register Task do
   menu false
 
+  breadcrumb do
+    [
+      link_to('admin', admin_root_path),
+      link_to(resource.project.title, admin_project_path(resource.project)),
+    ]
+  end
+
   permit_params :title, :description, :time, :created_at, :kind, :status, :project, :from_date, :from_time_hour,
                 :from_time_minute, :from, :to_date, :to_time_hour, :to_time_minute, :to, :project_id
 

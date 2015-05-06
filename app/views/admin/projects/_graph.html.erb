@@ -21,7 +21,7 @@
         <% else %>
           <div class="bar bar-none" style="width: <%= info[:befores] %>%;"></div>
           <div class="bar bar-success" style="width: <%= info[:length] %>%;">
-            <span><%= task.title %></span>
+            <span><%= link_to task.title, admin_task_path(task) %></span>
           </div>
         <% end %>
       <% end %>

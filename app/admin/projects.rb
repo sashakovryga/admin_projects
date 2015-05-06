@@ -2,7 +2,7 @@
 ActiveAdmin.register Project do
   # menu :parent => 'Проект'
 
-  permit_params :title, :description, :from, :to, :created_at, :from_date, :from_time_hour, :from_time_minute, :to_date, :to_time_hour, :client_id, :to_time_minute, :step,
+  permit_params :title, :description, :from, :to, :created_at, :from_date, :from_time_hour, :from_time_minute, :to_date, :to_time_hour, :client_id, :to_time_minute, :step, :status,
                 tasks_attributes: [:id, :_destroy, :title, :description, :time, :kind, :status, images_attributes: [:id, :image, :_destroy]],
                 payments_attributes: [:id, :_destroy, :comment, :price]
 
@@ -17,21 +17,22 @@ ActiveAdmin.register Project do
       f.input :description, as: :ckeditor
       f.input :from, as: :just_datetime_picker
       f.input :to, as: :just_datetime_picker
-      f.input :client, as: :select, collection: Client.all.map{|c| [c.title, c.id]}
-      f.inputs 'Задачи' do
-        f.has_many :tasks do |a|
-          a.input :_destroy, as: :boolean
-          a.input :title
-          a.input :description, as: :ckeditor
-          a.input :time
-          a.input :kind, as: :select, collection: Task.kind.options
-          a.input :status, as: :select, collection: Task.status.options
-          a.has_many :images do |p|
-            p.input :image, :as => :file, :hint => p.object.image.nil? ? a.template.content_tag(:span, "no image") : a.template.image_tag(p.object.image.thumb('100x100').url)
-            p.input :_destroy, :as => :boolean if !p.object.image.nil?
-          end
-        end
-      end
+      f.input :status, as: :select, collection: Project.status.options
+      # f.input :client, as: :select, collection: Client.all.map{|c| [c.title, c.id]}
+      # f.inputs 'Задачи' do
+      #   f.has_many :tasks do |a|
+      #     a.input :_destroy, as: :boolean
+      #     a.input :title
+      #     a.input :description, as: :ckeditor
+      #     a.input :time
+      #     a.input :kind, as: :select, collection: Task.kind.options
+      #     a.input :status, as: :select, collection: Task.status.options
+      #     a.has_many :images do |p|
+      #       p.input :image, :as => :file, :hint => p.object.image.nil? ? a.template.content_tag(:span, "no image") : a.template.image_tag(p.object.image.thumb('100x100').url)
+      #       p.input :_destroy, :as => :boolean if !p.object.image.nil?
+      #     end
+      #   end
+      # end
     end
     f.actions
   end

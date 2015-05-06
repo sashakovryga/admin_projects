@@ -8,7 +8,9 @@ ActiveAdmin.register_page "Dashboard" do
       Client.all.each { |o|
         client_scope.push([o.title, o.projects.count, o.title])
       }
-      projects = params[:scope].nil? || params[:scope].to_sym == :all ? Project.ordered : Project.ordered.where(client: Client.find_by_title(params[:scope]))
+      status = params[:status].nil? || params[:status] == 'all' ? Project.status.values : params[:status].split
+      client = params[:client].nil? || params[:client] == 'all' ? Client.all.to_a : Client.find_by_title(params[:client].split)
+      projects = Project.ordered.where('status IN (?) AND client_id IN (?)', status, client)
       minimum = projects.map(&:from).min
       maximum = projects.map(&:to).max
       render 'scope', client_scope: client_scope
@@ -16,14 +18,4 @@ ActiveAdmin.register_page "Dashboard" do
     end
   end
 
-  controller do
-    def show
-      @project_scope = [[:all, resource.projects.count, "Все"]]
-      Task.kind.values.each { |o|
-        @task_scope.push([o, resource.tasks.where(kind: o).count, o.text])
-      }
-      @tasks = params[:scope].nil? || params[:scope].to_sym == :all ? resource.tasks : resource.tasks.where(kind: params[:scope])
-      super
-    end
-  end
 end

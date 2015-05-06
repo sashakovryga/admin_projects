@@ -1,10 +1,14 @@
-<ul class='scopes table_tools_segmented_control'>
-  <% client_scope.each do |c| %>
-    <li class="scope">
-      <a href="<%= admin_root_path(scope: c.first) %>" class="table_tools_button">
-        <%= c.last %>
-        <span class="count"><%= c.second %></span>
-      </a>
-    </li>
-  <% end %>
-</ul>
+<% client_scope.each do |c| %>
+  <div class="btn-group">
+    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+      <%= c.last %> <%= c.second %><span class="caret"></span>
+    </button>
+    <ul class="dropdown-menu" role="menu">
+      <li><a href="<%= admin_root_path(client: c.first, status: :all) %>">Все</a></li>
+      <li class="divider"></li>
+      <% Project.status.values.each do |p| %>
+        <li><a href="<%= admin_root_path(client: c.first, status: p) %>"><%= p.text %></a></li>
+      <% end %>
+    </ul>
+  </div>
+<% end %>

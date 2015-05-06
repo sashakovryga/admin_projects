@@ -1,26 +1,32 @@
-<div class="panel calendar-panel collapse in" id="info">
-  <div class="ro1w">
-    <div class="span6"><span class="label"><%= Russian::l minimum, format: :short %></span></div>
-    <div class="span6 text-right"><span class="label"><%= Russian::l maximum, format: :short %></span></div>
-  </div>
-  <% info = months_split(minimum, maximum) %>
-  <div class="progress progress-info">
-    <% info[:intervals].each_with_index do |i, index| %>
-      <div class="bar bar-warning" style="width: <%= i %>%;"><%= Russian::l((minimum + index.months), format: :only_month) %></div>
-    <% end %>
-  </div>
-  <% projects.each do |project| %>
-    <% info = project.time_percent(minimum,maximum) %>
+<% if projects.present? %>
+  <div class="panel calendar-panel collapse in" id="info">
+    <div class="ro1w">
+      <div class="span6"><span class="label"><%= Russian::l minimum, format: :short %></span></div>
+      <div class="span6 text-right"><span class="label"><%= Russian::l maximum, format: :short %></span></div>
+    </div>
+    <% info = months_split(minimum, maximum) %>
     <div class="progress progress-info">
-      <% if project.empty_dates? %>
-        <div class="bar bar-warning" style="width:100%;"></div>
-      <% else %>
-        <div class="bar bar-none" style="width: <%= info[:befores] %>%;"></div>
-        <div class="bar bar-success" style="width: <%= info[:length] %>%;">
-          <span><%= link_to "#{project.title} #{[project.from, project.to].reject{|d| d.nil?}.map{|d| Russian::l(d, format: :short)}.join(' &mdash; ')}".html_safe, admin_project_path(project) %></span>
-        </div>
+      <% info[:intervals].each_with_index do |i, index| %>
+        <% i.to_i.times do |index| %>
+          <div class="bar bar-warning" style="width: <%= 100.0/info[:days] %>%;"><%= Russian::l((minimum + index.days), format: :small) %></div>
+        <% end %>
       <% end %>
     </div>
-  <% end %>
-</div>
-<div class="clearfix"></div>
+    <% projects.each do |project| %>
+      <% info = project.time_percent(minimum,maximum) %>
+      <div class="progress progress-info">
+        <% if project.empty_dates? %>
+          <div class="bar bar-warning" style="width:100%;"></div>
+        <% else %>
+          <div class="bar bar-none" style="width: <%= info[:befores] %>%;"></div>
+          <div class="bar bar-success" style="width: <%= info[:length] %>%;">
+            <span><%= link_to "#{project.title} #{[project.from, project.to].reject{|d| d.nil?}.map{|d| Russian::l(d, format: :short)}.join(' &mdash; ')}".html_safe, admin_project_path(project) %></span>
+          </div>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+  <div class="clearfix"></div>
+<% else %>
+  <h2>Проектов по данному критерию не найдено!!!</h2>
+<% end %>
