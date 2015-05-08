@@ -50,7 +50,7 @@ ActiveAdmin.register Project do
   show :title => :title do |project|
     panel "Задачи" do
       render('/admin/tasks/scope', :project => project )
-      render('/admin/tasks/status', :project => project )
+      # render('/admin/tasks/status', :project => project )
       table_for(tasks) do
         column("Задача", :sortable => :id) {|task| link_to "#{task.title}", admin_task_path(task) }
         column("Тип") {|task| "#{task.kind}" }
@@ -66,7 +66,9 @@ ActiveAdmin.register Project do
         table_for(project.payments) do
           column("Описание", :sortable => :id) {|payment| link_to "#{payment.comment}.".html_safe, admin_payment_path(payment) }
           column("Сумма") {|payment| "#{payment.price} $" }
-          column("События") {|payment| render('/admin/payments/actions', :payment => payment)}
+          if can? :create, project.payments
+            column("События") {|payment| render('/admin/payments/actions', :payment => payment)}
+          end
         end
       end
     end
@@ -82,8 +84,10 @@ ActiveAdmin.register Project do
       span do
         link_to 'Создать задачу', new_admin_task_path(project: project), class: 'btn btn-primary'
       end
-      span do
-        link_to 'Добавить платежку', new_admin_payment_path(project: project), class: 'btn btn-primary'
+      if can? :create, project.payments
+        span do
+          link_to 'Добавить платежку', new_admin_payment_path(project: project), class: 'btn btn-primary'
+        end
       end
     end
   end
@@ -94,12 +98,11 @@ ActiveAdmin.register Project do
       Task.kind.values.each { |o|
         @task_scope.push([o, resource.tasks.where(kind: o).count, o.text])
       }
-      @tasks = params[:scope].nil? || params[:scope].to_sym == :all ? resource.tasks : resource.tasks.where(kind: params[:scope])
-      @task_status = [[:all, resource.tasks.count, "Все"]]
-      Task.status.values.each { |o|
-        @task_status.push([o, resource.tasks.where(status: o).count, o.text])
-      }
-      @tasks_status = params[:status].nil? || params[:status].to_sym == :all ? resource.tasks : resource.tasks.where(status: params[:status])
+      @task_status = Task.status.options.unshift ["Все", :all]
+      # @tasks_statuses = params[:status].nil? || params[:status].to_sym == :all ? resource.tasks : resource.tasks.where(status: params[:status])
+      scope = params[:scope].nil? || params[:scope] == 'all' ? Task.kind.values : params[:scope].split
+      status = params[:status].nil? || params[:status] == 'all' ? Task.status.values : params[:status].split
+      @tasks = resource.tasks.ordered.where('kind IN (?) AND status IN (?)', scope, status)
       super
     end
   end

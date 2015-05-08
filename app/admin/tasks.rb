@@ -3,14 +3,15 @@ ActiveAdmin.register Task do
   menu false
 
   breadcrumb do
-    [
-      link_to('admin', admin_root_path),
-      link_to(resource.project.title, admin_project_path(resource.project)),
-    ]
+    if resource.project.present?
+      [ link_to('admin', admin_root_path), link_to(resource.project.title, admin_project_path(resource.project))]
+    else
+      [ link_to('admin', admin_root_path), link_to('Проекты', admin_projects_path)]
+    end
   end
 
   permit_params :title, :description, :time, :created_at, :kind, :status, :project, :from_date, :from_time_hour,
-                :from_time_minute, :from, :to_date, :to_time_hour, :to_time_minute, :to, :project_id
+                :from_time_minute, :from, :to_date, :to_time_hour, :to_time_minute, :to, :project_id, :admin_user_id
 
   filter :description
   filter :from
@@ -26,6 +27,7 @@ ActiveAdmin.register Task do
       f.input :to, as: :just_datetime_picker
       f.input :kind, as: :select, collection: Task.kind.options
       f.input :status, as: :select, collection: Task.status.options
+      f.input :admin_user, as: :select, collection: AdminUser.all.map {|u| [u.name, u.id]}
       if params[:project]
         f.input :project_id, as: :hidden, :input_html => { :value => params[:project] }
       else

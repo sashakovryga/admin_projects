@@ -1,0 +1,10 @@
+<ul class='scopes table_tools_segmented_control' style='clear: both;'>
+  <% @task_status.each do |t| %>
+    <li class="scope">
+      <a href="<%= admin_admin_user_path admin_user, status: t.first %>" class="table_tools_button">
+        <%= t.last %>
+        <span class="count"><%= t.second %></span>
+      </a>
+    </li>
+  <% end %>
+</ul>

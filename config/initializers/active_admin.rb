@@ -8,6 +8,10 @@ ActiveAdmin.setup do |config|
   module ActiveAdmin::ViewHelpers
     include ApplicationHelper
   end
+  config.authentication_method = :authenticate_active_admin_user!
+  config.current_user_method   = :current_user
+  config.logout_link_path      = :destroy_user_session_path
+  config.logout_link_method    = :delete
   # Set the link url for the title. For example, to take
   # users to your main site. Defaults to no link.
   #
@@ -73,6 +77,7 @@ ActiveAdmin.setup do |config|
 
   # You can customize your CanCan Ability class name here.
   # config.cancan_ability_class = "Ability"
+  config.authorization_adapter = ActiveAdmin::CanCanAdapter
 
   # You can specify a method to be called on unauthorized access.
   # This is necessary in order to prevent a redirect loop which happens

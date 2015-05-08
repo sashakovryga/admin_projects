@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150506161630) do
+ActiveRecord::Schema.define(version: 20150507211641) do
 
   create_table "active_admin_comments", force: true do |t|
     t.string   "namespace"
@@ -41,6 +41,8 @@ ActiveRecord::Schema.define(version: 20150506161630) do
     t.string   "last_sign_in_ip"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "role"
+    t.string   "name"
   end
 
   add_index "admin_users", ["email"], name: "index_admin_users_on_email", unique: true, using: :btree
@@ -108,15 +110,17 @@ ActiveRecord::Schema.define(version: 20150506161630) do
     t.integer  "project_id"
     t.string   "title"
     t.text     "description"
-    t.float    "time",        limit: 24
+    t.float    "time",          limit: 24
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "kind"
     t.string   "status"
     t.datetime "to"
     t.datetime "from"
+    t.integer  "admin_user_id"
   end
 
+  add_index "tasks", ["admin_user_id"], name: "index_tasks_on_admin_user_id", using: :btree
   add_index "tasks", ["project_id"], name: "index_tasks_on_project_id", using: :btree
 
 end

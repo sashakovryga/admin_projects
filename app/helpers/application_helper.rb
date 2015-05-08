@@ -15,4 +15,16 @@ module ApplicationHelper
     # intervals = intervals.map{|i| (i.to_f/days).to_f*100}
     {months: months, days: days, intervals: intervals}
   end
+
+  def count_task(scope, status, user = nil)
+    sc = scope == :all ? Task.kind.values : scope.split
+    st = status == :all ? Task.status.values : status.split
+    user.tasks.where('kind IN (?) AND status IN (?)', sc, st).count
+  end
+
+  def count_project(scope, status)
+    sc = scope == :all ? Client.all.to_a : Client.find_by_title(scope)
+    st = status == :all ? Project.status.values : status.split
+    Project.where('client_id IN (?) AND status IN (?)', sc, st).count
+  end
 end

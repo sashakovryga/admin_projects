@@ -1,6 +1,7 @@
 class Task < ActiveRecord::Base
   extend Enumerize
   belongs_to :project
+  belongs_to :admin_user
   has_many :images, as: :imageable, :dependent => :destroy
   accepts_nested_attributes_for :images, :allow_destroy => true
 
@@ -9,9 +10,14 @@ class Task < ActiveRecord::Base
   enumerize :kind, in: [:programming, :content, :test, :tz, :production, :design]
   enumerize :status, in: [:verify, :do, :perfomed]
   scope :ordered, -> {order('tasks.from ASC')}
+  scope :ordered_to, -> {order('tasks.to ASC')}
 
-  def time_percent(start, stop, kind)
-    prev = Task.where('tasks.from < ? AND kind = ?', self.from, kind).ordered.last
+  def time_percent(start, stop, kind, user = nil)
+    prev = if user.nil?
+      Task.where('tasks.from < ? AND kind = ?', self.from, kind).ordered.last
+    else
+      user.tasks.where('tasks.from < ? AND kind = ?', self.from, kind).ordered.last
+    end
     minus = prev.nil? ? start : prev.to
     days = (60 * 60 * 24)
     total = (stop - start).to_i / days

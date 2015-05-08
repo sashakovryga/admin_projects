@@ -20,6 +20,7 @@ gem 'russian', '~> 0.6.0'
 
 gem 'devise'
 gem 'activeadmin', github: 'activeadmin'
+gem "cancan"
 
 gem "therubyracer"
 gem "less-rails" #Sprockets (what Rails 3.1 uses for its asset pipeline) supports LESS

@@ -16,7 +16,7 @@
       <div class="progress progress-info">
         <span><%= k %></span>
         <% @tasks.where(kind: k).ordered.each do |task| %>
-          <% info = task.time_percent(minimum, maximum, k) %>
+          <% info = task.time_percent(minimum, maximum, k, resource) %>
           <% if task.empty_dates? %>
             <div class="bar bar-warning" style="width:100%;"></div>
           <% else %>
