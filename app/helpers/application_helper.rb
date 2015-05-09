@@ -19,7 +19,11 @@ module ApplicationHelper
   def count_task(scope, status, user = nil)
     sc = scope == :all ? Task.kind.values : scope.split
     st = status == :all ? Task.status.values : status.split
-    user.tasks.where('kind IN (?) AND status IN (?)', sc, st).count
+    if user.nil?
+      Task.where('kind IN (?) AND status IN (?)', sc, st).count
+    else
+      user.tasks.where('kind IN (?) AND status IN (?)', sc, st).count
+    end
   end
 
   def count_project(scope, status)

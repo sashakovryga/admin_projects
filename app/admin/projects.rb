@@ -3,11 +3,11 @@ ActiveAdmin.register Project do
   # menu :parent => 'Проект'
 
   permit_params :title, :description, :from, :to, :created_at, :from_date, :from_time_hour, :from_time_minute, :to_date, :to_time_hour, :client_id, :to_time_minute, :step, :status,
-                tasks_attributes: [:id, :_destroy, :title, :description, :time, :kind, :status, images_attributes: [:id, :image, :_destroy]],
+                tasks_attributes: [:id, :_destroy, :title, :description, :time, :kind, :status, :client_id, images_attributes: [:id, :image, :_destroy]],
                 payments_attributes: [:id, :_destroy, :comment, :price]
 
   filter :description
-  filter :from
+  filter :from0
   filter :to_date
   filter :created_at
 
@@ -18,7 +18,7 @@ ActiveAdmin.register Project do
       f.input :from, as: :just_datetime_picker
       f.input :to, as: :just_datetime_picker
       f.input :status, as: :select, collection: Project.status.options
-      # f.input :client, as: :select, collection: Client.all.map{|c| [c.title, c.id]}
+      f.input :client, as: :select, collection: Client.all.map{|c| [c.title, c.id]}
       # f.inputs 'Задачи' do
       #   f.has_many :tasks do |a|
       #     a.input :_destroy, as: :boolean
@@ -53,7 +53,7 @@ ActiveAdmin.register Project do
       # render('/admin/tasks/status', :project => project )
       table_for(tasks) do
         column("Задача", :sortable => :id) {|task| link_to "#{task.title}", admin_task_path(task) }
-        column("Тип") {|task| "#{task.kind}" }
+        column("Тип") {|task| "#{task.kind.text}" }
         column("Время") {|task| "#{task.time}"}
         column("Начало работ") {|task| Russian::l task.from, format: :short }
         column("Завершение") {|task| Russian::l task.to, format: :short}
@@ -65,7 +65,7 @@ ActiveAdmin.register Project do
       panel 'Платежки' do
         table_for(project.payments) do
           column("Описание", :sortable => :id) {|payment| link_to "#{payment.comment}.".html_safe, admin_payment_path(payment) }
-          column("Сумма") {|payment| "#{payment.price} $" }
+          column("Сумма") {|payment| number_to_currency payment.price, :unit => "$" }
           if can? :create, project.payments
             column("События") {|payment| render('/admin/payments/actions', :payment => payment)}
           end
@@ -78,7 +78,7 @@ ActiveAdmin.register Project do
     attributes_table_for project do
       row("Описание") { project.description.html_safe }
       row("Общее время") { [project.tasks.map(&:time).sum, 'часов'].join(' ') }
-      row("Бюджет") { [project.payments.map(&:price).sum, '$'].join(' ') }
+      row("Бюджет") { number_to_currency project.payments.map(&:price).sum, :unit => "$" }
     end
     div class: 'sidebar' do
       span do

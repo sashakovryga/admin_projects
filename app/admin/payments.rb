@@ -22,7 +22,9 @@ ActiveAdmin.register Payment do
 
   show do |payment|
     attributes_table do
-      row :price
+      row :price do
+        number_to_currency payment.price, :unit => "$"
+      end
       row :comment do
         raw payment.comment.html_safe
       end

@@ -9,13 +9,10 @@ ru:
 
     attributes:
       task:
-        correct: Правильный ответ
-        prompts: Подсказки
-        popup: Текст попапа обычного вопроса
-        copyright: Текст попапа вопроса-настроения
-        content: Элемент на сайте игры
-        image: Изображение
-        title_popup: Заголовок попапа обычного вопроса
+        time: Время выполнения
+        kind: Тип задачи
+        status: Статус задачи
+        admin_user: Назначена
 
   enumerize:
     task:
@@ -26,4 +23,8 @@ ru:
         tz: ТЗ
         production: Заливка
         design: Дизайн
+      status:
+        do: Выполняются
+        verify: Сделать
+        perfomed: Проверить
 

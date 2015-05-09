@@ -3,10 +3,13 @@ ActiveAdmin.register AdminUser do
 
   index do
     selectable_column
-    id_column
+    column :name do |user|
+      link_to user.name, admin_admin_user_path(user)
+    end
     column :email
-    column :name
-    column :role
+    column :role do |user|
+      user.role.text
+    end
     actions
   end
 
@@ -29,14 +32,16 @@ ActiveAdmin.register AdminUser do
     attributes_table do
       row :name
       row :email
-      row :role
+      row :role do
+        user.role.text
+      end
     end
     panel "Задачи" do
       render('/admin/admin_user/scope', :admin_user => admin_user )
       # render('/admin/admin_user/status', :admin_user => admin_user )
       table_for(tasks) do
         column("Задача", :sortable => :id) {|task| link_to "#{task.title}", admin_task_path(task) }
-        column("Тип") {|task| "#{task.kind}" }
+        column("Тип") {|task| "#{task.kind.text}" }
         column("Время") {|task| "#{task.time}"}
         column("Начало работ") {|task| Russian::l task.from, format: :short }
         column("Завершение") {|task| Russian::l task.to, format: :short}

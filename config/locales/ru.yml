@@ -24,6 +24,8 @@ ru:
     remember_created_at: ???
     password: Пароль
     password_confirmation: Повторите пароль
+    from: Начало выполнения
+    to: Конец выполнения
 
   buttons:
     add: Добавить

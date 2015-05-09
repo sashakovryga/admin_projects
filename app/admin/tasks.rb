@@ -44,8 +44,12 @@ ActiveAdmin.register Task do
         raw task.description.html_safe
       end
       row :time
-      row :kind
-      row :status
+      row :kind do
+        task.kind.text
+      end
+      row :status do
+        task.status.text
+      end
       row :from
       row :to
       row :created_at

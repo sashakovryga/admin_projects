@@ -14,7 +14,7 @@
   <% kind.each do |k| %>
     <% if @tasks.where(kind: k).present? %>
       <div class="progress progress-info">
-        <span><%= k %></span>
+        <span><%= k.text %></span>
         <% @tasks.where(kind: k).ordered.each do |task| %>
           <% info = task.time_percent(minimum, maximum, k, resource) %>
           <% if task.empty_dates? %>

@@ -26,6 +26,14 @@ body.active_admin {
   a.cke_button {
     padding: 4px 6px !important;
   }
+  form {
+    input {
+      width: 40%;
+    }
+    input[type=submit], input[type=checkbox]  {
+      width: auto;
+    }
+  }
 }
 
 .cke_chrome {
