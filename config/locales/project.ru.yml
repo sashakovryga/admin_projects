@@ -1,0 +1,19 @@
+ru:
+  activerecord:
+    models:
+      project:
+        one: Проект
+        few: Проекта
+        many: Проектов
+        other: Проекты
+
+    attributes:
+      project:
+        client: Клиент
+
+  enumerize:
+    project:
+      status:
+        archive: Архив
+        do: Выполняются
+        planned: Планируются

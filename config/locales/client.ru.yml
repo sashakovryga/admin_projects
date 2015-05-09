@@ -1,0 +1,12 @@
+ru:
+  activerecord:
+    models:
+      client:
+        one: Клиент
+        few: Клиента
+        many: Клиентов
+        other: Клиенты
+
+    attributes:
+      client:
+        projects: Проекты

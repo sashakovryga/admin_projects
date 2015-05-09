@@ -1,0 +1,20 @@
+ru:
+  activerecord:
+    models:
+      admin_user:
+        one: Пользователь
+        few: Пользователя
+        many: Пользователей
+        other: Пользователи
+
+    attributes:
+      admin_user:
+        name: Имя
+        role: Роль
+
+  enumerize:
+    admin_user:
+      role:
+        admin: Админ
+        user: Пользователь
+        manager: Менеджер
