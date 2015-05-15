@@ -40,7 +40,8 @@ ActiveAdmin.register AdminUser do
       render('/admin/admin_user/scope', :admin_user => admin_user )
       # render('/admin/admin_user/status', :admin_user => admin_user )
       table_for(tasks) do
-        column("Задача", :sortable => :id) {|task| link_to "#{task.title}", admin_task_path(task) }
+        column("Номер", :sortable => :id) {|task| link_to "##{task.id}", admin_task_path(task) }
+        column("Задача") {|task| link_to "#{task.title}", admin_task_path(task) }
         column("Тип") {|task| "#{task.kind.text}" }
         column("Время") {|task| "#{task.time}"}
         column("Начало работ") {|task| Russian::l task.from, format: :short }
@@ -53,6 +54,10 @@ ActiveAdmin.register AdminUser do
         h2 {'Задач с такими параметрами не найдены!'}
       end
     end
+  end
+
+  sidebar "Ответ системы", :only => :show, if: proc{ resource.error_tasks.present? } do
+    render '/admin/admin_user/error', error_tasks: resource.error_tasks
   end
 
   controller do

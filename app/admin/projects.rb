@@ -52,12 +52,13 @@ ActiveAdmin.register Project do
       render('/admin/tasks/scope', :project => project )
       # render('/admin/tasks/status', :project => project )
       table_for(tasks) do
-        column("Задача", :sortable => :id) {|task| link_to "#{task.title}", admin_task_path(task) }
+        column("Номер", :sortable => :id) {|task| link_to "##{task.id}", admin_task_path(task) }
+        column("Задача") {|task| link_to "#{task.title}", admin_task_path(task) }
         column("Тип") {|task| "#{task.kind.text}" }
         column("Время") {|task| "#{task.time}"}
         column("Начало работ") {|task| Russian::l task.from, format: :short }
         column("Завершение") {|task| Russian::l task.to, format: :short}
-        column("События") {|task| render('/admin/tasks/actions', :task => task)}
+        # column("События") {|task| render('/admin/tasks/actions', :task => task)}
       end
       render('/admin/projects/graph', minimum: project.from, maximum: project.to, kind: Task.kind.values)
     end
@@ -77,7 +78,7 @@ ActiveAdmin.register Project do
   sidebar "Общая информация", :only => :show do
     attributes_table_for project do
       row("Описание") { project.description.html_safe }
-      row("Общее время") { [project.tasks.map(&:time).sum, 'часов'].join(' ') }
+      row("Общеевремя") { [project.tasks.map(&:time).sum, 'часов'].join(' ') }
       row("Бюджет") { number_to_currency project.payments.map(&:price).sum, :unit => "$" }
     end
     div class: 'sidebar' do

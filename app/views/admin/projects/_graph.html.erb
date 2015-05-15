@@ -16,13 +16,12 @@
       <div class="progress progress-info">
         <span><%= k.text %></span>
         <% @tasks.where(kind: k).ordered.each do |task| %>
-          <% info = task.time_percent(minimum, maximum, k) %>
+          <% info = task.time_percent(minimum, maximum, k, params[:status] || 'all') %>
           <% if task.empty_dates? %>
             <div class="bar bar-warning" style="width:100%;"></div>
           <% else %>
-            <div class="bar bar-none" style="width: <%= info[:befores] %>%;"></div>
-            <div class="bar bar-success" style="width: <%= info[:length] %>%;">
-              <span><%= link_to task.title, admin_task_path(task) %></span>
+            <div class="bar bar-success" style="width: <%= info[:length] %>%; margin-left: <%= info[:befores]%>%;">
+              <span><%= link_to task.id, admin_task_path(task) %></span>
             </div>
           <% end %>
         <% end %>

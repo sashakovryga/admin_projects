@@ -1,0 +1,23 @@
+ru:
+  activerecord:
+    models:
+      comment_task:
+        one: Комментарий к задаче
+        few: Комментария к задаче
+        many: Комментариев к задаче
+        other: Комментарии к задаче
+
+    attributes:
+      comment_task:
+        time: Затраченное время
+        status: Статус задачи
+        user: Назначена
+        comment: Комментарий
+
+  enumerize:
+    comment_task:
+      status:
+        do: Выполняется
+        verify: Сделать
+        perfomed: Проверить
+

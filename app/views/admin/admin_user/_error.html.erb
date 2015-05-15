@@ -1,0 +1,5 @@
+<h3>Переплетение задач:</h3>
+<p>Рекомендуем изменить время задач</p>
+<% (error_tasks.count/2).times do %>
+  <p><%= link_to error_tasks.first.id, admin_task_path(error_tasks.shift) %> и/или <%= link_to error_tasks.first.id, admin_task_path(error_tasks.shift) %></p>
+<% end %>

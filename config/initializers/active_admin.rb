@@ -12,6 +12,26 @@ ActiveAdmin.setup do |config|
   config.current_user_method   = :current_user
   config.logout_link_path      = :destroy_user_session_path
   config.logout_link_method    = :delete
+
+  # config.namespace :admin do |admin|
+  #   admin.build_menu :utility_navigation do |menu|
+  #     menu.add :label => proc{ display_name current_active_admin_user }, :priority => 0
+  #     admin.add_current_user_to_menu  menu
+  #     admin.add_logout_button_to_menu menu
+  #   end
+  # end
+
+  # config.namespace :admin do |admin|
+  #   admin.build_menu :utility_navigation do |menu|
+  #     menu.add  :label  => proc{ display_name current_active_admin_user }, # email of the current admin user logged
+  #       :url            => proc { my_other_awesome_path },
+  #       :html_options   => {:style => 'float:left;'},
+  #       :id             => 'current_user',
+  #       :if             => proc{ current_active_admin_user? }
+
+  #     admin.add_logout_button_to_menu menu, 100, :style => 'float:left;' # logout link
+  #   end
+  # end
   # Set the link url for the title. For example, to take
   # users to your main site. Defaults to no link.
   #

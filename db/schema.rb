@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150507211641) do
+ActiveRecord::Schema.define(version: 20150514091634) do
 
   create_table "active_admin_comments", force: true do |t|
     t.string   "namespace"
@@ -72,6 +72,18 @@ ActiveRecord::Schema.define(version: 20150507211641) do
     t.datetime "updated_at"
   end
 
+  create_table "comment_tasks", force: true do |t|
+    t.text     "comment"
+    t.float    "time",       limit: 24, default: 0.0
+    t.string   "status"
+    t.integer  "task_id"
+    t.string   "user"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "comment_tasks", ["task_id"], name: "index_comment_tasks_on_task_id", using: :btree
+
   create_table "images", force: true do |t|
     t.string   "image_uid"
     t.string   "image_name"
@@ -110,7 +122,7 @@ ActiveRecord::Schema.define(version: 20150507211641) do
     t.integer  "project_id"
     t.string   "title"
     t.text     "description"
-    t.float    "time",          limit: 24
+    t.float    "time",          limit: 24, default: 0.0
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "kind"

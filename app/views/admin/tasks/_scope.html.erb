@@ -15,7 +15,7 @@
     </button>
     <ul class="dropdown-menu" role="menu">
       <% @task_status.each_with_index do |p, i| %>
-        <li><a href="<%= admin_project_path(scope: c.first, status: p.last) %>"><%= p.first %>  <b><%= count_task(c.first, p.first) %></b></a></li>
+        <li><a href="<%= admin_project_path(scope: c.first, status: p.last) %>"><%= p.first %>  <b><%= count_task(c.first, p.last) %></b></a></li>
         <% if i == 0 %><li class="divider"></li><% end %>
       <% end %>
     </ul>

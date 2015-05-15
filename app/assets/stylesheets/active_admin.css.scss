@@ -30,6 +30,10 @@ body.active_admin {
     input {
       width: 40%;
     }
+    #comment_task_comment {
+      width: 20%;
+      height: 50px;
+    }
     input[type=submit], input[type=checkbox]  {
       width: auto;
     }

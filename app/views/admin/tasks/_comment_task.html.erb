@@ -1,0 +1,10 @@
+<%= semantic_form_for [:admin, resource.comment_tasks.build], builder: ActiveAdmin::FormBuilder do |f| %>
+  <%= f.inputs :comment_tasks do %>
+    <%= f.input :task_id, as: :hidden, :input_html => { :value => resource.id }%>
+    <%= f.input :comment %>
+    <%= f.input :time %>
+    <%= f.input :status, as: :select, collection: CommentTask.status.options %>
+    <%= f.input :user, as: :select, collection: AdminUser.all.map {|u| [u.name, u.id]} %>
+  <% end %>
+  <%= f.actions %>
+<% end %>

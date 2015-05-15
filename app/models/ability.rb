@@ -6,10 +6,13 @@ class Ability
     if user.admin?
       can :manage, :all
     elsif user.user?
-      can :manage, Task
-      can [:update, :destroy], AdminUser, :id => user.id
       can :read, :all
+      cannot :manage, Task
+      can :read, Task
+      can [:new, :create, :read], CommentTask
+      can [:update, :destroy], AdminUser, :id => user.id
     elsif user.manager?
+      cannot :manage, Task
       read :all
     end
   end

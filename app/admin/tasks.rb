@@ -11,7 +11,8 @@ ActiveAdmin.register Task do
   end
 
   permit_params :title, :description, :time, :created_at, :kind, :status, :project, :from_date, :from_time_hour,
-                :from_time_minute, :from, :to_date, :to_time_hour, :to_time_minute, :to, :project_id, :admin_user_id
+                :from_time_minute, :from, :to_date, :to_time_hour, :to_time_minute, :to, :project_id, :admin_user_id,
+                comment_tasks_attributes: [:id, :_destroy, :comment, :time, :status, :user]
 
   filter :description
   filter :from
@@ -52,7 +53,20 @@ ActiveAdmin.register Task do
       end
       row :from
       row :to
-      row :created_at
+      row :admin_user do
+        task.admin_user.name
+      end
+    end
+    panel "Изменения по задаче" do
+      table_for(task.comment_tasks) do
+        column("Описание") {|comment| "#{comment.comment}" }
+        column("Затраченное время") {|comment| "#{comment.time}" }
+        column("Назначена на") {|comment| "#{AdminUser.find(comment.user).name}" }
+        column("Статус") {|comment| "#{comment.status.text}" }
+      end
+      panel "Измененить задачу" do
+        render('/admin/tasks/comment_task', :resource => task )
+      end
     end
   end
 
