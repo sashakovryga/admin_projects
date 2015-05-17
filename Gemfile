@@ -25,6 +25,7 @@ gem "cancan"
 gem "rails-erd"
 gem 'paperclip'
 
+gem 'rails_12factor'
 gem "therubyracer"
 gem "less-rails" #Sprockets (what Rails 3.1 uses for its asset pipeline) supports LESS
 gem "twitter-bootstrap-rails"
@@ -32,4 +33,7 @@ gem 'bootstrap-sass', '~> 3.0.3.0'
 group :development do
   gem 'pry'
 end
+
+ruby "2.1.3"
+
 
