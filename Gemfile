@@ -22,6 +22,9 @@ gem 'devise'
 gem 'activeadmin', github: 'activeadmin'
 gem "cancan"
 
+gem "rails-erd"
+gem 'paperclip'
+
 gem "therubyracer"
 gem "less-rails" #Sprockets (what Rails 3.1 uses for its asset pipeline) supports LESS
 gem "twitter-bootstrap-rails"
