@@ -136,6 +136,7 @@ GEM
       activesupport (>= 3.0.0)
       cocaine (~> 0.5.3)
       mime-types
+    pg (0.15.1)
     polyamorous (1.1.0)
       activerecord (>= 3.0)
     pry (0.10.1)
@@ -244,6 +245,7 @@ DEPENDENCIES
   less-rails
   mysql2
   paperclip
+  pg (= 0.15.1)
   pry
   rails (= 4.1.6)
   rails-erd
